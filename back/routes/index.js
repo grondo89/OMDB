@@ -1,5 +1,5 @@
 const express = require("express");
-const passport = require("passport");
+const passport = require("../passport/passport");
 const S = require("sequelize");
 
 const templates = require("../templates");
@@ -27,46 +27,35 @@ function isLogged(req, res, next) {
 }
 // ------------ //
 
-// router.get('/', (req, res) => {
-//   /*console.log("---------------------------")
-//   console.log("req.session: ", req.session) // express-session
-//   console.log("req.sessionID: ", req.sessionID) // express-session
-//   console.log("req.cookies: ", req.cookies) // cookie-parser
-//   console.log("---------------------------")*/
-//   res.send(req.user ? templates.index(req.user) : templates.indexGuest );
+// router.get("/login", isLogged, (req, res) => {
+//   res.send(templates.login);
 // });
 
-router.get("/login", isLogged, (req, res) => {
-  res.send(templates.login);
-});
+// router.get("/register", isLogged, (req, res) => {
+//   res.send(templates.register);
+// });
 
-router.get("/register", isLogged, (req, res) => {
-  res.send(templates.register);
-});
-
-router.get("/public", (req, res) => {
-  res.send(templates.public);
-});
+// router.get("/public", (req, res) => {
+//   res.send(templates.public);
+// });
 
 router.get("/usercheck", function(req, res) {
+  console.log("SOY USER EN EL BACK!", req.user, )
   res.send(req.user);
 });
 
-router.get("/private", isLoggedIn, (req, res) => {
-  res.send(templates.private);
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  res.send(req.user);
 });
 
 router.post("/users", (req, res) => {
-  // Creating new User
   User.create(req.body).then(user => {
-    res.send(templates.login);
-  }); // New Json User Object returned
+    res.status(200).send(user);
+  });
 });
 
 router.put("/addmovie/:userId", (req, res) => {
-  //  console.log("SOY EL REQ.BODY", req.body);
   User.update(
-    // console.log(req.body),
     {
       favorites: S.fn("array_append", S.col("favorites"), req.body.peli)
     },
@@ -86,11 +75,9 @@ router.put("/remmovie/:userId", (req, res) => {
   User.findByPk(req.body.userId)
     .then(data => {
       let favs = data.favorites;
-      console.log(favs, peli2);
       let editFavs = favs.filter(fav => {
         return fav !== peli2;
       });
-      console.log("SOY EDITFAVS", editFavs);
       return editFavs;
     })
     .then(editFavs => {
@@ -104,16 +91,9 @@ router.put("/remmovie/:userId", (req, res) => {
           }
         }
       ).then(data => {
-        console.log("UPDATED USER", data);
         res.send(data);
       });
     });
-});
-
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  // Passport strategy for authenticating with a username and password. | http://www.passportjs.org/packages/passport-local/
-  console.log("Welcome User !!!", req.user);
-  res.redirect("/");
 });
 
 router.post("/logout", (req, res) => {
@@ -126,8 +106,6 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/findusers/:user", function(req, res) {
-  console.log("SOY REQ.BODY", req.body);
-  console.log("SOY REQ.PARAMS", req.params.user);
   let nombre = req.params.user;
 
   User.findAll({
@@ -140,8 +118,6 @@ router.get("/findusers/:user", function(req, res) {
 });
 
 router.get("/findsingleuser/:userId", function(req, res) {
-  console.log("SOY REQ.BODY", req.body);
-  console.log("SOY REQ.PARAMS", req.params.userId);
   let nombre = req.params.userId;
 
   User.findAll({
@@ -153,5 +129,4 @@ router.get("/findsingleuser/:userId", function(req, res) {
   });
 });
 
-// let nombre = req.params.user.toLowerCase();
 module.exports = router;

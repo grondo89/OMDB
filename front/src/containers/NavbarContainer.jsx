@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import NavBar from "../components/Navbar";
 import { fetchMovies } from "../redux/actions/moviesactioncreators";
-import { fetchUsers } from "../redux/actions/useractioncreators";
+import { fetchUsers, logoutUser } from "../redux/actions/useractioncreators";
 
 class NavbarContainer extends React.Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class NavbarContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleUserSubmit = this.handleUserSubmit.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
   }
 
   handleUserInput(e) {
@@ -46,6 +47,10 @@ class NavbarContainer extends React.Component {
     }
   }
 
+  logoutUser() {
+    this.props.logoutUser("");
+  }
+
   render() {
     return (
       <NavBar
@@ -55,6 +60,8 @@ class NavbarContainer extends React.Component {
         handleUserSubmit={this.handleUserSubmit}
         handleUserInput={this.handleUserInput}
         user={this.state.user}
+        logoutUser={this.logoutUser}
+        loggedUser={this.props.user}
       />
     );
   }
@@ -69,10 +76,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchMovies: name => dispatch(fetchMovies(name)),
-  fetchUsers: user => dispatch(fetchUsers(user))
+  fetchUsers: user => dispatch(fetchUsers(user)),
+  logoutUser: user => dispatch(logoutUser(user))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavbarContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarContainer);

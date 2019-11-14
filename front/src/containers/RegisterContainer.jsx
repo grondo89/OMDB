@@ -4,7 +4,7 @@ import Register from "../components/Register"
 import store from "../redux/store"
 import {fetchMovies} from "../redux/actions/moviesactioncreators"
 
-class MovieContainer extends Component {
+class RegisterContainer extends Component {
     constructor(props) {
         super(props);
         //  this.state = {
@@ -37,4 +37,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(MovieContainer)
+)(RegisterContainer)

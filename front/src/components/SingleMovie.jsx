@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const movTit = {
+  color : "white"
+}
+
 export default function(props) {
   return (
-    <div className="container" key={props.movie.peli.imdbID}>
+    <div style={movTit} className="container" key={props.movie.peli.imdbID}>
       <h2> {props.movie.peli.Title} </h2>
       <img src={props.movie.peli.Poster} />
       <h4> Actors : {props.movie.peli.Actors} </h4>
@@ -14,8 +18,17 @@ export default function(props) {
       <h4> Genre : {props.movie.peli.Genre} </h4>
       <h4> Release Date : {props.movie.peli.Released} </h4>
 
-      <button onClick={props.addMovie}> ADD TO FAVORITES</button>
-      <button onClick={props.remFromFavs}> REMOVE FROM FAVORITES</button>
+      {props.loggedUser ? (
+        <div>
+          {" "}
+          <button onClick={props.addMovie}> ADD TO FAVORITES</button>
+          <button onClick={props.remFromFavs}> REMOVE FROM FAVORITES</button>
+        </div>
+      ) : null}
+
+      <div>
+        <button onClick={props.back}> GO BACK</button>
+      </div>
     </div>
   );
 }

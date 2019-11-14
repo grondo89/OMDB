@@ -1,9 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const favs = {
+  display : "flex",
+  flexDirection : "column",
+  justifyContent : "center"
+}
+
 export default function(props) {
   return (
-    <div className="row">
+    <div style={favs} className="row">
       {props.users.length < 1 ? (
         <h3> "NO SE ENCONTRARON USUARIOS!" </h3>
       ) : (

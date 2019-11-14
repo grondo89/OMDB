@@ -1,13 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const movTit = {
+  color : "white"
+}
+
 export default function(props) {
   return (
-    <div className="row">
-      {(
-        props.movies.Search &&
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-around",
+        paddingTop : "2%"
+      }}
+      className="row"
+    >
+      {props.movies.Search &&
         props.movies.Search.map(movie => (
-          <div key={movie.imdbID} className="col-xs-3">
+          <div style={movTit} key={movie.imdbID} className="col-xs-3">
             <h6> {movie.Title} </h6>
             <div>
               <Link to={`/movies/${movie.imdbID}`}>
@@ -15,8 +25,7 @@ export default function(props) {
               </Link>
             </div>
           </div>
-        ))
-      )}
+        ))}
     </div>
   );
 }

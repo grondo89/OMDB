@@ -13,6 +13,7 @@ class SingleMovieContainer extends Component {
     // this.state = Object.assign({}, store.getState());
     this.addMovieToFavs = this.addMovieToFavs.bind(this);
     this.remFromFavs = this.remFromFavs.bind(this);
+    this.goBack = this.goBack.bind(this)
   }
 
   componentDidMount() {
@@ -40,12 +41,18 @@ class SingleMovieContainer extends Component {
       .catch(e => console.log("error!!", e));
   }
 
+  goBack () {
+    this.props.history.goBack();
+  };
+
   render() {
     return (
       <SingleMovie
         movie={this.props}
         addMovie={this.addMovieToFavs}
         remFromFavs={this.remFromFavs}
+        loggedUser={this.props.user}
+        back={this.goBack}
       />
     );
   }

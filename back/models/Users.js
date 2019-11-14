@@ -14,7 +14,7 @@ const User = db.define('users', {
     allowNull: false,
   },
   salt: {
-    type: S.STRING, // a salt is random data that is used as an additional input to a one-way function that "hashes" data
+    type: S.STRING,
   },
   favorites : {
     type : S.ARRAY(S.TEXT),

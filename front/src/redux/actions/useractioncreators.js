@@ -25,11 +25,31 @@ const setSingleUser = function(singleUser) {
 export const fetchUser = function(user) {
   return function(dispatch, getState) {
     return axios.get("/usercheck").then(res => {
+      console.log(res, "SOY USER EN EL FRRRRONT")
       dispatch(setUser(res.data));
       return res.data;
     });
   };
 };
+
+
+export const logUser = function(user) {
+  return function(dispatch, getState) {
+    return axios.post("/login", user).then(res => {
+      console.log("soy user en el action creator", res);
+      dispatch(setUser(res.data));
+      return res.data;
+    });
+  };
+};
+
+export const logoutUser = function(user){
+  return function(dispatch, getState) {
+    return axios.get ("/logout").then(res =>{
+      dispatch(setUser(""))
+    })
+  }
+}
 
 export const fetchUsers = function(user) {
   let user2 = user;

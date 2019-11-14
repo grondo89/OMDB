@@ -26,16 +26,17 @@ class SidebarContainer extends React.Component {
 
   componentDidMount() {
     this.props.fetchUser();
-    this.props.user ? this.props.fetchFavs(this.props.user.id) : null;
+  //  this.props.user ? this.props.fetchFavs(this.props.user.id) : null;
   }
 
-  componentDidUpdate() {
-    this.props.user
-      ? this.props.user.favorites.map(movieId => {
-          this.props.fetchFavs(movieId);
-        })
-      : null;
-  }
+  // componentDidUpdate() {
+  //   this.props.user
+  //     ? this.props.user.favorites.map(movieId => {
+  //       console.log("soy movieId", movieId)
+  //         this.props.fetchFavs(movieId);
+  //       })
+  //     : null;
+  // }
 
   render() {
     return this.props.user && this.props.user.id ? (
